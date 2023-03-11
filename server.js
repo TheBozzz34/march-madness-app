@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+var jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 var bodyParser = require('body-parser')
+
+
 
 const corsOptions ={
    origin:'*', 
@@ -13,23 +16,23 @@ const corsOptions ={
 app.use(cors(corsOptions)) // Use this after the variable declaration
 app.use(bodyParser.json())
 
-app.use('/login', (req, res) => {
+app.use('/login', async (req, res) => {
 
     const { username, password } = req.body;
 
-    comparePassword("password", password, function(err, isMatch) {
-        if (err) throw err;
-        if (isMatch) {
-            console.log("password matched");
-            res.send({
-              token: 'test123'
+    console.log(req.body);
+    comparePassword("password", password, function(err, isPasswordMatch) {
+        if (err)
+            throw new Error('Something went wrong on the server!');
+        if (isPasswordMatch) {
+            res.json({
+                token: jwt.sign({ foo: username }, 'supersecretkey11')
             });
         } else {
-            console.log("password not matched");
-          res.status(403).send('Incorrect Password')
-        } 
+            res.status(401).json({ message: 'Username or password is incorrect' });
+        }
+      });
     });
-});
 
 
 function comparePassword(plainPass, hashword, callback) {

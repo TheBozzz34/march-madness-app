@@ -32,11 +32,17 @@ export default function Login({ setToken }) {
           password
         });
         console.log(token);
-        if (token !== undefined) {
-            console.log("setting token");
+        
+        if (token.token) {
             setToken(token);
+        } else {
+            alert("Invalid username or password")
         }
-      }
+        
+
+
+
+    }
 
     return(
         <div className="login-wrapper">
