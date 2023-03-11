@@ -31,22 +31,20 @@ export default function Login({ setToken }) {
           username,
           password
         });
-        console.log(token);
+        console.log(token.token);
         
         if (token.token) {
             setToken(token);
         } else {
             alert("Invalid username or password")
         }
-        
-
-
 
     }
 
     return(
         <div className="login-wrapper">
             <h1>Please Log In</h1>
+            <p className="login-text">Test credentials: Username: <strong>username</strong> Password: <strong>password</strong></p>
             <form onSubmit={handleSubmit}>
                 <label>
                     <p>Username</p>
