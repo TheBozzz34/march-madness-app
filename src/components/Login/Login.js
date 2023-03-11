@@ -9,14 +9,16 @@ async function loginUser(credentials) {
     const hashedPassword = await bcrypt.hash(credentials.password, 10)
     console.log(JSON.stringify({ username: credentials.username, password: hashedPassword }))
 
-    return fetch('http://localhost:8080/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username: credentials.username, password: hashedPassword })
-    })
-      .then(data => data.json())
+    
+        return fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: credentials.username, password: hashedPassword })
+        }).then(data => data.json()) 
+
+      
 }
 
 export default function Login({ setToken }) {
@@ -29,7 +31,11 @@ export default function Login({ setToken }) {
           username,
           password
         });
-        setToken(token);
+        console.log(token);
+        if (token !== undefined) {
+            console.log("setting token");
+            setToken(token);
+        }
       }
 
     return(

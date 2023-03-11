@@ -19,15 +19,15 @@ app.use('/login', (req, res) => {
 
     comparePassword("password", password, function(err, isMatch) {
         if (err) throw err;
-        console.log('123', isMatch); 
-    });
-
-
-
-
-
-    res.send({
-      token: 'test123'
+        if (isMatch) {
+            console.log("password matched");
+            res.send({
+              token: 'test123'
+            });
+        } else {
+            console.log("password not matched");
+          res.status(403).send('Incorrect Password')
+        } 
     });
 });
 
